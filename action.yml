@@ -7,6 +7,10 @@ inputs:
     description: "List of secrets to generate names for, separated by commas"
     required: true
 
+  envVars:
+    description: "List of environment variables to generate names for, separated by commas"
+    required: false
+
 runs:
   using: 'node12'
   main: 'dist/index.js'
