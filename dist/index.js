@@ -8059,8 +8059,8 @@ function run() {
             secrets.forEach((secret) => {
                 core.exportVariable(`${secret}_NAME`, `${secret}_${environment}`);
             });
-            envVars.forEach((secret) => {
-                core.exportVariable(`${secret}_NAME`, `${secret}_${environment}`);
+            envVars.forEach((envVar) => {
+                core.exportVariable(`${envVar}_NAME`, `${envVar}_${environment}`);
             });
             core.exportVariable("TARGET_BRANCH", branch);
             core.exportVariable("TARGET_BRANCH_U", branch.toUpperCase());

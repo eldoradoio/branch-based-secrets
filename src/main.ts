@@ -38,10 +38,10 @@ async function run() {
       );
     });
 
-    envVars.forEach((secret) => {
+    envVars.forEach((envVar) => {
       core.exportVariable(
-        `${secret}_NAME`,
-        `${secret}_${environment}`
+        `${envVar}_NAME`,
+        `${envVar}_${environment}`
       );
     });
 
