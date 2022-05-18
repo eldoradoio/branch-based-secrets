@@ -33,7 +33,11 @@ jobs:
         run: |
           echo "Assertion failed for TARGET_BRANCH_U: $TARGET_BRANCH_U != MASTER"
           exit 1
-      - if: ${{ env.TESTSECRET_NAME != format('TESTSECRET_{0}', env.TARGET_BRANCH_U) }}
+      - if: ${{ github.ref == 'refs/heads/master' && env.TARGET_ENVIRONMENT != 'PROD' }}
+        run: |
+          echo "Assertion failed for TARGET_ENVIRONMENT: $TARGET_ENVIRONMENT != PROD"
+          exit 1  
+      - if: ${{ env.TESTSECRET_NAME != format('TESTSECRET_{0}', env.TARGET_ENVIRONMENT) }}
         run: |
           echo "Assertion failed for TESTSECRET_NAME: $TESTSECRET_NAME != TESTSECRET_PROD"
           exit 1

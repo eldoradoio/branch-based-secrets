@@ -45,7 +45,7 @@ async function run() {
       );
     });
 
-
+    core.exportVariable("TARGET_ENVIRONMENT", environment);
     core.exportVariable("TARGET_BRANCH", branch);
     core.exportVariable("TARGET_BRANCH_U", branch.toUpperCase());
   } catch (error) {
