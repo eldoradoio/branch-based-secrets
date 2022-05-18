@@ -3,6 +3,9 @@
 This action makes it easy to use different secrets for different branches.
 It relies on the following naming scheme for secrets: `<name>_<branch>`.
 
+## Fork Note:
+This is a fork not to depend on an external repo. If you are not from El Dorado, please use the original by noliran.
+
 ## Usage example
 
 In a project with 2 branches, `prod` and `dev`, define the following secrets:
@@ -11,7 +14,7 @@ In a project with 2 branches, `prod` and `dev`, define the following secrets:
 
 Step configuration:
 ```yaml
-      - uses: noliran/branch-based-secrets@v1
+      - uses: eldoradoio/branch-based-secrets@v1
         with:
           secrets: SECRET_TOKEN
 ```
