@@ -8040,15 +8040,27 @@ function run() {
             const secrets = core
                 .getInput("secrets", { required: true })
                 .toUpperCase()
-                .split(",");
+                .split(",")
+                .map(x => x.trim());
+            const envVars = core
+                .getInput("envVars", { required: false })
+                .toUpperCase()
+                .split(",")
+                .map(x => x.trim());
             let ref = process.env.GITHUB_REF;
             if (context.eventName == "pull_request") {
                 ref = process.env.GITHUB_BASE_REF;
             }
             const branch = refToBranch(ref);
+            let environment = branch.toUpperCase();
+            if (environment == 'MAIN' || environment == "MASTER")
+                environment = 'PROD';
             core.info(`Target branch: ${branch}`);
             secrets.forEach((secret) => {
-                core.exportVariable(`${secret}_NAME`, `${secret}_${branch.toUpperCase()}`);
+                core.exportVariable(`${secret}_NAME`, `${secret}_${environment}`);
+            });
+            envVars.forEach((secret) => {
+                core.exportVariable(`${secret}_NAME`, `${secret}_${environment}`);
             });
             core.exportVariable("TARGET_BRANCH", branch);
             core.exportVariable("TARGET_BRANCH_U", branch.toUpperCase());
