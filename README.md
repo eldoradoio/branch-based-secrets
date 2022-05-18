@@ -26,3 +26,4 @@ After the action runs, you can pass the correct secret to other steps:
         env:
           SECRET_TOKEN: ${{ secrets[env.SECRET_TOKEN_NAME] }}
 ```
+
