@@ -78,7 +78,7 @@ jobs:
           exit 1  
       - run: |
           if [ ${{ secrets.TESTSECRET }} != "HELLO_WORLD_DEV" }} ]; then
-            echo "❌ Assertion failed for TESTSECRET: TESTSECRET_PROD != HELLO_WORLD"
+            echo "❌ Assertion failed for TESTSECRET: TESTSECRET_PROD != HELLO_WORLD_DEV"
             exit 1
           else 
             echo "✅ Secrets injected"
