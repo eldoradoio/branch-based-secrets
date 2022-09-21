@@ -12,7 +12,7 @@ env:
 
 jobs:
   non-injected:
-    name: Test
+    name: Test Legacy vars
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -46,7 +46,7 @@ jobs:
           exit 1
 
   injected:
-    name: Test
+    name: Test Injected vars
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -76,7 +76,7 @@ jobs:
         run: |
           echo "Assertion failed for TARGET_ENVIRONMENT: $TARGET_ENVIRONMENT != PROD"
           exit 1  
-      - if: ${{ env.TESTSECRET != 'Hello World' }}
+      - if: ${{ env.TESTENVVAR != 'Hello World' }}
         run: |
-          echo "Assertion failed for TESTSECRET: TESTSECRET_PROD != Hello World"
+          echo "Assertion failed for TESTENVVAR: TESTENVVAR_PROD != Hello World"
           exit 1
