@@ -17,6 +17,11 @@ async function run() {
       .split(",")
       .map(x => x.trim());
 
+    const inject = core
+      .getInput("inject", { required: false })
+      .toUpperCase()
+      .trim() == 'TRUE';
+
     let ref = process.env.GITHUB_REF;
 
     if (context.eventName == "pull_request") {
@@ -32,17 +37,24 @@ async function run() {
     core.info(`Target branch: ${branch}`);
 
     secrets.forEach((secret) => {
-      core.exportVariable(
-        `${secret}_NAME`,
-        `${secret}_${environment}`
-      );
+      if (inject) {
+        core.setSecret(secret)
+        core.exportVariable(secret, process.env[`${secret}_${environment}`])
+      } else
+        core.exportVariable(
+          `${secret}_NAME`,
+          `${secret}_${environment}`
+        );
     });
 
     envVars.forEach((envVar) => {
-      core.exportVariable(
-        `${envVar}_NAME`,
-        `${envVar}_${environment}`
-      );
+      if (inject) {
+        core.exportVariable(envVar, process.env[`${envVar}_${environment}`]);
+      } else
+        core.exportVariable(
+          `${envVar}_NAME`,
+          `${envVar}_${environment}`
+        );
     });
 
     core.exportVariable("TARGET_ENVIRONMENT", environment);

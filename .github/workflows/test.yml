@@ -7,8 +7,11 @@ on:
     branches:
       - master
 
+env:
+  TESTENVVAR_PROD: "Hello World"
+
 jobs:
-  latest:
+  non-injected:
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -40,4 +43,40 @@ jobs:
       - if: ${{ env.TESTSECRET_NAME != format('TESTSECRET_{0}', env.TARGET_ENVIRONMENT) }}
         run: |
           echo "Assertion failed for TESTSECRET_NAME: $TESTSECRET_NAME != TESTSECRET_PROD"
+          exit 1
+
+  injected:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - run: npm ci
+      - run: npm run package
+
+      - run: printenv
+
+      - uses: ./
+        with:
+          secrets: TESTSECRET
+          envVars: TESTENVVAR
+          inject: true
+
+      - run: printenv
+
+      - if: ${{ github.ref == 'refs/heads/master' && env.TARGET_BRANCH != 'master' }}
+        run: |
+          echo "Assertion failed for TARGET_BRANCH: $TARGET_BRANCH != master"
+          exit 1
+      - if: ${{ github.ref == 'refs/heads/master' && env.TARGET_BRANCH_U != 'MASTER' }}
+        run: |
+          echo "Assertion failed for TARGET_BRANCH_U: $TARGET_BRANCH_U != MASTER"
+          exit 1
+      - if: ${{ github.ref == 'refs/heads/master' && env.TARGET_ENVIRONMENT != 'PROD' }}
+        run: |
+          echo "Assertion failed for TARGET_ENVIRONMENT: $TARGET_ENVIRONMENT != PROD"
+          exit 1  
+      - if: ${{ env.TESTSECRET != "Hello World" }}
+        run: |
+          echo "Assertion failed for TESTSECRET: TESTSECRET_PROD != Hello World"
           exit 1
