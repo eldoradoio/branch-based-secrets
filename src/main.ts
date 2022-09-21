@@ -6,7 +6,7 @@ const context = github.context;
 async function run() {
   try {
     const secrets = core
-      .getInput("secrets", { required: true })
+      .getInput("secrets", { required: false })
       .toUpperCase()
       .split(",")
       .map(x => x.trim());

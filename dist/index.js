@@ -8038,7 +8038,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const secrets = core
-                .getInput("secrets", { required: true })
+                .getInput("secrets", { required: false })
                 .toUpperCase()
                 .split(",")
                 .map(x => x.trim());
