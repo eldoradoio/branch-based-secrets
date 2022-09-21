@@ -8061,14 +8061,16 @@ function run() {
                 environment = 'PROD';
             core.info(`Target branch: ${branch}`);
             secrets.forEach((secret) => {
+                core.info(`Setting secret: "${secret}"`);
                 if (inject) {
-                    core.setSecret(secret);
                     core.exportVariable(secret, process.env[`${secret}_${environment}`]);
+                    core.setSecret(secret);
                 }
                 else
                     core.exportVariable(`${secret}_NAME`, `${secret}_${environment}`);
             });
             envVars.forEach((envVar) => {
+                core.info(`Setting envVar: "${envVar}"`);
                 if (inject) {
                     core.exportVariable(envVar, process.env[`${envVar}_${environment}`]);
                 }
