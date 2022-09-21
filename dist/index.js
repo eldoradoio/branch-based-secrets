@@ -8041,12 +8041,14 @@ function run() {
                 .getInput("secrets", { required: false })
                 .toUpperCase()
                 .split(",")
-                .map(x => x.trim());
+                .map(x => x.trim())
+                .filter(x => x);
             const envVars = core
                 .getInput("envVars", { required: false })
                 .toUpperCase()
                 .split(",")
-                .map(x => x.trim());
+                .map(x => x.trim())
+                .filter(x => x);
             const inject = core
                 .getInput("inject", { required: false })
                 .toUpperCase()
@@ -8061,6 +8063,8 @@ function run() {
                 environment = 'PROD';
             core.info(`Target branch: ${branch}`);
             secrets.forEach((secret) => {
+                if (!secret)
+                    return;
                 core.info(`Setting secret: "${secret}"`);
                 if (inject) {
                     core.exportVariable(secret, process.env[`${secret}_${environment}`]);
@@ -8070,6 +8074,8 @@ function run() {
                     core.exportVariable(`${secret}_NAME`, `${secret}_${environment}`);
             });
             envVars.forEach((envVar) => {
+                if (!envVar)
+                    return;
                 core.info(`Setting envVar: "${envVar}"`);
                 if (inject) {
                     core.exportVariable(envVar, process.env[`${envVar}_${environment}`]);
