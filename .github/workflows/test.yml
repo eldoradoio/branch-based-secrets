@@ -76,6 +76,10 @@ jobs:
         run: |
           echo "Assertion failed for TARGET_ENVIRONMENT: $TARGET_ENVIRONMENT != PROD"
           exit 1  
+      - if: ${{ secrets.TESTSECRET != 'HELLO_WORLD' }}
+        run: |
+          echo "Assertion failed for TESTSECRET: TESTSECRET_PROD != HELLO_WORLD"
+          exit 1
       - if: ${{ env.TESTENVVAR != 'Hello World' }}
         run: |
           echo "Assertion failed for TESTENVVAR: TESTENVVAR_PROD != Hello World"
