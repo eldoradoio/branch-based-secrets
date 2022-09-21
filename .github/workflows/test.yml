@@ -77,7 +77,7 @@ jobs:
           echo "Assertion failed for TARGET_ENVIRONMENT: $TARGET_ENVIRONMENT != PROD"
           exit 1  
       - run: |
-          if [ ${{ secrets.TESTSECRET }} != "HELLO_WORLD" }} ]; then
+          if [ ${{ secrets.TESTSECRET }} != "HELLO_WORLD_DEV" }} ]; then
             echo "❌ Assertion failed for TESTSECRET: TESTSECRET_PROD != HELLO_WORLD"
             exit 1
           else 
